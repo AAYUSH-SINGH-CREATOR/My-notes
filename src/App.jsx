@@ -15,12 +15,19 @@ export default function App() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
 
   const addNote = () => {
     if (!title.trim() || !description.trim()) return;
-    const newNote = { id: Date.now(), title, description };
-    setNotes([newNote, ...notes]);
+    if (editingId) {
+      setNotes(notes.map(n => n.id === editingId ? { ...n, title, description } : n));
+      setEditingId(null);
+    } else {
+      const newNote = { id: Date.now(), title, description };
+      setNotes([newNote, ...notes]);
+    }
+    
     setTitle("");
     setDescription("");
   };
@@ -29,6 +36,11 @@ export default function App() {
     setNotes(notes.filter(note => note.id !== id));
   };
 
+  const editNote = (note) => {
+    setTitle(note.title);
+    setDescription(note.description);
+    setEditingId(note.id);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -47,6 +59,7 @@ export default function App() {
           description={description}
           setDescription={setDescription}
           addNote={addNote}
+          editingId={editingId}
         />
 
         <h2 className="text-2xl font-bold mt-8 mb-5">
@@ -58,6 +71,7 @@ export default function App() {
             <Note
               key={note.id}
               note={note}
+              editNote={editNote}
               deleteNote={deleteNote}
             />
           ))}

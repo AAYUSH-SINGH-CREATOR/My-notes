@@ -1,5 +1,5 @@
 
-export default function NoteForm({ title, setTitle, description, setDescription, addNote }) {
+export default function NoteForm({ title, setTitle, description, setDescription, addNote , editingId }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         addNote();
@@ -20,14 +20,14 @@ export default function NoteForm({ title, setTitle, description, setDescription,
                 rows="4"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full border p-3 rounded mb-3 outline-none"
+                className="w-full border p-3 rounded mb-3 outline-none resize-none" 
             />
 
             <button
                 type="submit"
                 className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 cursor-pointer"
             >
-                Add Note
+                {editingId ? "Update Note" : "Add Note"}
             </button>
 
         </form>
