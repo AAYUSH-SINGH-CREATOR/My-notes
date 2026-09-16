@@ -1,9 +1,18 @@
 import NoteForm from "./components/NoteForm";
 import Note from "./components/Note";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(() => {
+    const saved = localStorage.getItem("my-notes");
+    return saved ? JSON.parse(saved) : [];
+  }
+  );
+
+  useEffect(() => {
+    localStorage.setItem("my-notes", JSON.stringify(notes));
+  }, [notes]);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
