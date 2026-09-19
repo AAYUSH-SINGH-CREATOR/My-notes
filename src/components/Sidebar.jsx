@@ -1,4 +1,3 @@
-
 import { useNotes } from '../context/NotesContext';
 import ModuleItem from './ModuleItem';
 
